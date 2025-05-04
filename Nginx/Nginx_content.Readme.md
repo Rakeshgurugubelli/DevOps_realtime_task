@@ -21,7 +21,7 @@ we are having 2 types of webservers
 
 -> Nginx is a event driven(when request comes processor will create ) and Asynchronous webserver(don't sit idle do something)
 
--> if we created virtual machine having 4 core and installed nginx 4 processor will be created
+-> if we created virtual machine having 4 core and installed nginx it means 4 processor will be created
 
 **Workflow of nginx**
 
