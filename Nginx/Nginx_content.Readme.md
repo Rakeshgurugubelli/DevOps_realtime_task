@@ -65,7 +65,7 @@ systemctl status nginx
 
 webpages need to place on /var/www/ and ensure user is www_data
 
-chown -r www_data:www_data
+chown -R www-data:www-data
 
 .conf files will be paced on /etc/nginx/sites-available/
 
@@ -73,7 +73,54 @@ Once we place configuration files in sites-available we need to enabled it then 
 
 ***Realtime projects******************************
 
-* hosting static website
+******hosting static website*********
 
-  
+code: https://github.com/jaiswaladi246/static-site.git
+
+Step-1: Copy the code to var/www/
+
+![image](https://github.com/user-attachments/assets/57a123ee-c97e-4229-bec4-d116786e59d8)
+
+Step-2: change the permissions
+
+sudo chown -R www-data:www-data static-site/
+
+![image](https://github.com/user-attachments/assets/efa73f55-3474-4cc2-ba63-a5e0c76646f3)
+
+Step-3: create the configuration file 
+
+cd /etc/nginx/sites-available/
+
+![image](https://github.com/user-attachments/assets/32ebf565-063e-4fdf-bbbf-e4b3478e4486)
+
+Step-4: Enable Site and reload the nginx 
+
+sudo ln -s /etc/nginx/sites-available/dev.conf /etc/nginx/sites-enabled/
+
+sudo nginx -t
+
+sudo systemctl reload nginx
+
+dev.conf
+
+    server {
+        listen 80;
+# in server name we will place domain name or dns or ip
+        server_name 3.6.37.254;
+
+        location / {
+# webpage code placed in the below path
+
+            root /var/www/static-site;
+# homepage
+            index index.html;
+            try_files $uri $uri/ =404;
+        }
+    }
+![image](https://github.com/user-attachments/assets/b0a3957c-bc47-41f9-a17a-28650642f04f)
+
+
+******Nginx webserver a reverse proxy*********
+
+
 
