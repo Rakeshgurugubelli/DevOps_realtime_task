@@ -101,19 +101,17 @@ sudo nginx -t
 
 sudo systemctl reload nginx
 
-dev.conf
+**dev.conf**
 
     server {
         listen 80;
 # in server name we will place domain name or dns or ip
         server_name 3.6.37.254;
-
         location / {
 # webpage code placed in the below path
-
             root /var/www/static-site;
 # homepage
-            index index.html;
+           index index.html;
             try_files $uri $uri/ =404;
         }
     }
