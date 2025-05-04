@@ -48,7 +48,21 @@ Sudo apt update && apt-get install -y nginx
 Step-2: Reload & check status
 
 systemctl restart nginx (or) nginx -s reload
+
 systemctl status nginx 
 
+**files existing in /etc/nginx/**
 
+webpages need to place on /var/www/ and ensure user is www_data
+
+chown -r www_data:www_data
+
+.conf files will be paced on /etc/nginx/sites-available/
+
+Once we place configuration files in sites-available we need to enabled it then only it will work 
+
+***Realtime projects******************************
+* hosting static website
+
+  
 
