@@ -28,3 +28,8 @@ we are having 2 types of webservers
 start nginx
 TCP connection(3 way hand shake: when user sends the request it will go to servers using syn(synchronous) and sever sent back  sync+acknowledge to browser)
 
+. nginx can also perform reverse proxy server
+. nginx can also use as load balancer
+. nginx can also be used as http cache
+. nginx can hold static website
+. nginx can also be used as api gateway
