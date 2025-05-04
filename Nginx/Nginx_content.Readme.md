@@ -18,3 +18,13 @@ we are having 2 types of webservers
 **To overcome above problem  we are using Nginx (or)  Engine-X**
 
 -> it is solving c10k problem (it means more users hits the applications chances of crashing website)
+
+-> Nginx is a event driven(when request comes processor will create ) and Asynchronous webserver(don't sit idle do something)
+
+-> if we created virtual machine having 4 core and installed nginx 4 processor will be created
+
+**Workflow of nginx**
+
+start nginx
+TCP connection(3 way hand shake: when user sends the request it will go to servers using syn(synchronous) and sever sent back  sync+acknowledge to browser)
+
