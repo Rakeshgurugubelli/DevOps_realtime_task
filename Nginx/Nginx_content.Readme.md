@@ -33,3 +33,22 @@ TCP connection(3 way hand shake: when user sends the request it will go to serve
 . nginx can also be used as http cache
 . nginx can hold static website
 . nginx can also be used as api gateway
+
+**Security groups open on server**
+**Inbound rule**
+port range: 443,80,22
+**outbount rule**
+port range: All traffic
+
+**Installation steps of nginx on ubuntu server**
+Step-1: install
+
+Sudo apt update && apt-get install -y nginx
+
+Step-2: Reload & check status
+
+systemctl restart nginx (or) nginx -s reload
+systemctl status nginx 
+
+
+
