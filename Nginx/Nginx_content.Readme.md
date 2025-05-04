@@ -26,21 +26,31 @@ we are having 2 types of webservers
 **Workflow of nginx**
 
 start nginx
+
 TCP connection(3 way hand shake: when user sends the request it will go to servers using syn(synchronous) and sever sent back  sync+acknowledge to browser)
 
 . nginx can also perform reverse proxy server
+
 . nginx can also use as load balancer
+
 . nginx can also be used as http cache
+
 . nginx can hold static website
+
 . nginx can also be used as api gateway
 
 **Security groups open on server**
+
 **Inbound rule**
+
 port range: 443,80,22
+
 **outbount rule**
+
 port range: All traffic
 
 **Installation steps of nginx on ubuntu server**
+
 Step-1: install
 
 Sudo apt update && apt-get install -y nginx
@@ -62,6 +72,7 @@ chown -r www_data:www_data
 Once we place configuration files in sites-available we need to enabled it then only it will work 
 
 ***Realtime projects******************************
+
 * hosting static website
 
   
