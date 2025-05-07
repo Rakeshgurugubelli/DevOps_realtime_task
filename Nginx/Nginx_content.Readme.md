@@ -120,5 +120,128 @@ sudo systemctl reload nginx
 
 ******Nginx webserver a reverse proxy*********
 
+In reverse proxy it will hide the access to the backend server when front end wants to access to backend,
+it should be using nginx frst then the nginx will sends request to backend from backend nginx will take request
+and nginx will send request to frontend
+
+code:https://github.com/jaiswaladi246/nginx-node-proxy.git
+
+Step-1: Copy the Frontend code to /var/www/
+
+![image](https://github.com/user-attachments/assets/e8259e9f-47fa-4cbc-bd60-f180f920e034)
+
+Step-2: change the permissions
+
+sudo chown -R www-data:www-data frontend/
+
+![image](https://github.com/user-attachments/assets/c5e0851f-b5a0-4ba8-b5aa-82be99e256e7)
+
+Step-3: create the configuration file 
+
+cd /etc/nginx/sites-available/
+
+**for frontend**
+
+![image](https://github.com/user-attachments/assets/06583158-936c-449e-9602-abca88292368)
+
+**for backend**
+-----------------------**config file**---------------------------------------------------------------------------
+server {
+        listen 80;
+# in server name we will place domain name or dns or ip
+        server_name 3.111.170.61;
+
+        location / {
+# webpage code placed in the below path
+
+            root /var/www/frontend;
+# homepage
+            index index.html;
+            try_files $uri $uri/ =404;
+        }
+
+# if we type domainname/api then proxy pass to api 
+location /api/ {
+# local host change to ip address
+
+        proxy_pass http://3.111.170.61:3000;  # Backend service
+
+# it is basically makesure connection is alive
+        proxy_http_version 1.1;
+# $host:it basically refers to host it means domain name
+        proxy_set_header Host $host;
+# $remote_addr: it basically refers to client ip address
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+       # websocket support
+       location /socket.io/ {
+# local host change to ip address
+
+        proxy_pass http://3.111.170.61:3000;  # Backend service
+
+# it is basically makesure connection is alive
+        proxy_http_version 1.1;
+                  
+
+
+ # Optional: Handle WebSocket connections
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+
+}
+-----------------------------------------------------------------------------------------------------------
+To run backend based on our code need to install node.js on machine
+and also we are not using package.json to install packages so we need to install manually
+---***node js**-----
+
+# Download and install nvm:
+
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
+# in lieu of restarting the shell
+
+\. "$HOME/.nvm/nvm.sh"
+
+# Download and install Node.js:
+
+nvm install 22
+
+# Verify the Node.js version:
+
+node -v # Should print "v22.15.0".
+nvm current # Should print "v22.15.0".
+
+# Verify npm version:
+
+npm -v # Should print "10.9.2".
+
+---package install--
+
+npm init -y
+npm install express.js
+
+to start backend -- node index.js
+
+Step-4: Enable Site and reload the nginx 
+
+sudo ln -s /etc/nginx/sites-available/frontend.conf /etc/nginx/sites-enabled/
+
+# if it fails it means config file syntax is incorrect
+sudo nginx -t
+
+sudo systemctl reload nginx
+
+![image](https://github.com/user-attachments/assets/f3f49c1a-b20e-4298-bee6-235e998394e5)
+
+once we hit the frontend automatically backend will receive it and we can see logs 
+
+*****************Nginx loadbalancer*****************************
+
+code: https://github.com/jaiswaladi246/nginx-loadbalancer.git
+
 
 
