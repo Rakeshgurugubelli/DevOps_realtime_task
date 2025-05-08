@@ -243,5 +243,87 @@ once we hit the frontend automatically backend will receive it and we can see lo
 
 code: https://github.com/jaiswaladi246/nginx-loadbalancer.git
 
+Step-1: Copy the Frontend code to /var/www/
+
+![image](https://github.com/user-attachments/assets/e8259e9f-47fa-4cbc-bd60-f180f920e034)
+
+Step-2: change the permissions
+
+sudo chown -R www-data:www-data frontend/
+
+![image](https://github.com/user-attachments/assets/c5e0851f-b5a0-4ba8-b5aa-82be99e256e7)
+
+Step-3: create the configuration file 
+
+cd /etc/nginx/sites-available/
+
+**loadbalancer.conf**
+
+upstream backend_servers {
+        # List of backend app servers
+        server 13.233.92.115:3001;
+        server 13.233.92.115:3002;
+    }
+
+    server {
+        listen 80;
+# in server name we will place domain name or dns or ip
+        server_name 3.111.170.61;
+
+        location / {
+# webpage code placed in the below path
+
+            root /var/www/frontend;
+# homepage
+            index index.html;
+            try_files $uri $uri/ =404;
+        }
+
+# if we type domainname/api then proxy pass to api 
+location /api/ {
+# local host change to ip address
+
+        proxy_pass http://3.111.170.61:3000;  # Backend service
+
+# it is basically makesure connection is alive
+        proxy_http_version 1.1;
+# $host:it basically refers to host it means domain name
+        proxy_set_header Host $host;
+# $remote_addr: it basically refers to client ip address
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+       # websocket support
+       location /socket.io/ {
+# local host change to ip address
+
+        proxy_pass http://3.111.170.61:3000;  # Backend service
+
+# it is basically makesure connection is alive
+        proxy_http_version 1.1;
+                  
+
+
+ # Optional: Handle WebSocket connections
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+    }
+
+}
+
+Step-4: Enable Site and reload the nginx 
+
+sudo ln -s /etc/nginx/sites-available/frontend.conf /etc/nginx/sites-enabled/
+
+# if it fails it means config file syntax is incorrect
+sudo nginx -t
+
+sudo systemctl reload nginx
+
+once we access with frontend automatically request goes to backend 1 & backend 2 based on load
+
+
 
 
