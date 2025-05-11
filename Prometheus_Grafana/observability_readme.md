@@ -25,6 +25,7 @@ Ans.) by using traces we can troubleshoot, fixing theissues
 
 ---------------------------Promethues Architecture:------------------------------------------------------------------------
 
+
  +------------------+        +------------------+
  |  Exporters       |        |   Push Gateway   |
  | (Node, App, etc) |        | (optional)       |
@@ -50,3 +51,5 @@ Ans.) by using traces we can troubleshoot, fixing theissues
          |     Grafana (UI)       |
          | (Queries, Dashboards)  |
          +------------------------+
+
+
