@@ -43,7 +43,51 @@ kubectl create ns prometheus
 
 Step-5: install prometheus using helm 
 
+**Ensure sufficient nodes are there or more instancetype** 
+
 helm install prometheus prometheus-community/kube-prometheus-stack -n prometheus
+
+![image](https://github.com/user-attachments/assets/40a1da24-3850-4254-b251-067c333384c0)
+
+Step-6: verify pods are running
+
+kubectl get pods -n prometheus
+
+![image](https://github.com/user-attachments/assets/94a0d133-8a04-47a5-aefc-026b650a3f32)
+
+Step-7: Expose the  grafana through the load balancer
+
+**change cluster Ip to loadbalancer**
+
+kubectl edit svc prometheus-grafana -n prometheus
+
+![image](https://github.com/user-attachments/assets/430ceb59-bf01-452d-9ad4-808ce5de15a4)
+
+Step-8: Search below command in Terminal , we will find dns name with that we can see
+
+kubectl get svc -n prometheus
+
+![image](https://github.com/user-attachments/assets/5e9f2747-7ba4-4082-b973-16215d3c597f)
+
+Step-9: To get the password of grafana
+
+kubectl get secret prometheus-grafana -n prometheus -o jsonpath="{.data.admin-password}" | base64 --decode; echo
+
+![image](https://github.com/user-attachments/assets/1cb2afb9-fd38-4b67-a43b-881720635bf1)
+
+username: admin
+
+Step-10:  Expose the  prmetheus through the load balancer
+
+**change cluster Ip to loadbalancer**
+
+kubectl edit svc prometheus-kube-prometheus-prometheus -n prometheus
+
+![image](https://github.com/user-attachments/assets/945d3cb0-c8d4-4f4e-b9df-6afe92051ff3)
+
+Step-11: To access the prometheus in the browser
+
+DNS:9090
 
 
 
