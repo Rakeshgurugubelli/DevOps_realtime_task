@@ -53,7 +53,15 @@ Ans.) by using traces we can troubleshoot, fixing theissues
          +------------------------+
 
 
+🔄 Scraping Workflow
 
+  . Prometheus periodically scrapes endpoints (e.g., /metrics) exposed by exporters.
+
+  . It stores the collected metrics in its TSDB (time series database).
+
+  . Prometheus can trigger alerts based on alert rules.
+
+  . Dashboards in Grafana pull data using PromQL to visualize metrics.
 
 
 **Grafana:**
