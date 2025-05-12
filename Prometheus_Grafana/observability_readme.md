@@ -63,7 +63,17 @@ Ans.) by using traces we can troubleshoot, fixing theissues
 
   . Dashboards in Grafana pull data using PromQL to visualize metrics.
 
+  pometheus scrapes metrics from node exporter(cpu, memory), kube state metrics(Api server), custom metrics(http request, login authentication) and stores them in timeseries database
 
+**custom metrices:**
+    Instrumentation: when developer setup metrics,logs, traces in the application then that is called as instrumentation
+   
+   **Metrics:** Total 4 types of metrics we have 
+                1.) **counter:** eg: logging into the application or HTTp request (when user logged in the application count will be increase that comes under counter metric type) 
+                2.) **gauge** eg: cpu utilization(In cpu utilization it will increase or decrease so we can guage metrics )
+                3.) **histogram**In histogram will create buckets like(Anyone ask how many times my https request taking more than 5ms or how many times cpu utilization is more than 50 percent this scenario will 
+                                                                       use this histogram metrics)
+                 4.) **summary**:
 **Grafana:**
 
 -> it is open source tool for performing data analytics retrieving metrics that make of large amount of data and monitoring our apps using nice configurable dashboard.
