@@ -77,23 +77,23 @@ Ex: http_requests_total(this will get from developer, developer will configure i
 
 Step-7: After that go to grafana and create custom dashboards
 
-       1.) Go to grafana click on dashboards-> click on new dashboard
+  1.) Go to grafana click on dashboards-> click on new dashboard
 
-       ![image](https://github.com/user-attachments/assets/84e98cab-d2ee-4f5c-a51d-77744213e566)
+  ![image](https://github.com/user-attachments/assets/84e98cab-d2ee-4f5c-a51d-77744213e566)
 
-       2.) Click on Add visualization, and select the data source
+  2.) Click on Add visualization, and select the data source
 
-       ![image](https://github.com/user-attachments/assets/b6cec77a-4ba9-428a-b1f1-9d6e951c71b2)
+  ![image](https://github.com/user-attachments/assets/b6cec77a-4ba9-428a-b1f1-9d6e951c71b2)
 
-       3.) search the promql query in the mertic and click on run queries
+  3.) search the promql query in the mertic and click on run queries
 
-           query: http_requests_total
+  query: http_requests_total
 
-            ![image](https://github.com/user-attachments/assets/15d5a5db-f41d-47b1-9759-643527238a39)
+  ![image](https://github.com/user-attachments/assets/15d5a5db-f41d-47b1-9759-643527238a39)
 
-        4.) After that we will see a graph and click on save dashboard our custom dashboard is created
+   4.) After that we will see a graph and click on save dashboard our custom dashboard is created
 
-            ![image](https://github.com/user-attachments/assets/66a0f679-ef98-4cfa-b4e0-0708e2e5986f)
+  ![image](https://github.com/user-attachments/assets/66a0f679-ef98-4cfa-b4e0-0708e2e5986f)
 
 
 
