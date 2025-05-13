@@ -32,8 +32,68 @@ Step-2: Expose the application and verify it is access through browser
 
 **our requirement we exposed our application using load balancer with port of 3001**
 
+![image](https://github.com/user-attachments/assets/0167f1cb-921a-471f-9d3a-2057910321d9)
 
+Step-3: verify in the browser when we search domain name/metrics metrics is coming or not(developer need to configure)
 
+![image](https://github.com/user-attachments/assets/10dcf4c2-09f6-45ae-b9c0-ceeeff58a9f3)
+
+Step-4: if its coming , the configure service discovery run the below manifest it will configure
+
+**based on the requirement change app & path & namespaces fields**
+
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: a-service-servicemonitor
+  namespace: dev
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: a-service
+  endpoints:
+    - port: http
+      interval: 30s
+      path: /metrics
+  namespaceSelector:
+    matchNames:
+      - dev
+
+  ![image](https://github.com/user-attachments/assets/e0b05b51-d2cd-45cf-ae7f-ad0b0ed10b0c)
+
+Step-5: Go to promethues Server verify the customer metrics properly configure to prometheus
+
+host or dns_name:9090/targets verify the service is present
+
+![image](https://github.com/user-attachments/assets/f65cf0b0-906e-4055-9475-cb5b8624a7e1)
+
+Step-6: After that go to promql and execute the commands
+
+Ex: http_requests_total(this will get from developer, developer will configure in code)
+
+![image](https://github.com/user-attachments/assets/1fa3579b-2f2e-4987-957e-9db5c3f21519)
+
+Step-7: After that go to grafana and create custom dashboards
+
+       1.) Go to grafana click on dashboards-> click on new dashboard
+
+       ![image](https://github.com/user-attachments/assets/84e98cab-d2ee-4f5c-a51d-77744213e566)
+
+       2.) Click on Add visualization, and select the data source
+
+       ![image](https://github.com/user-attachments/assets/b6cec77a-4ba9-428a-b1f1-9d6e951c71b2)
+
+       3.) search the promql query in the mertic and click on run queries
+
+           query: http_requests_total
+
+            ![image](https://github.com/user-attachments/assets/15d5a5db-f41d-47b1-9759-643527238a39)
+
+        4.) After that we will see a graph and click on save dashboard our custom dashboard is created
+
+            ![image](https://github.com/user-attachments/assets/66a0f679-ef98-4cfa-b4e0-0708e2e5986f)
 
 
 
