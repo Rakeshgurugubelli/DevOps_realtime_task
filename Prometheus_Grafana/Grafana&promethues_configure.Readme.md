@@ -38,7 +38,7 @@ Step-3: verify in the browser when we search domain name/metrics metrics is comi
 
 ![image](https://github.com/user-attachments/assets/10dcf4c2-09f6-45ae-b9c0-ceeeff58a9f3)
 
-Step-4: if its coming , the configure service discovery run the below manifest it will configure
+Step-4: if its coming , the configure service discovery run the below manifest it will configure(service monitor)
 
 **based on the requirement change app & path & namespaces fields**
 
@@ -95,6 +95,60 @@ Step-7: After that go to grafana and create custom dashboards
 
   ![image](https://github.com/user-attachments/assets/66a0f679-ef98-4cfa-b4e0-0708e2e5986f)
 
+**How to configure Alerts**
+
+Step-1: login into the aws terminal
+
+Step-2: Expose the application and verify it is access through browser
+
+**our requirement we exposed our application using load balancer with port of 3001**
+
+![image](https://github.com/user-attachments/assets/0167f1cb-921a-471f-9d3a-2057910321d9)
+
+Step-3: verify in the browser when we search domain name/metrics metrics is coming or not(developer need to configure)
+
+![image](https://github.com/user-attachments/assets/10dcf4c2-09f6-45ae-b9c0-ceeeff58a9f3)
+
+Step-4: if its coming , the configure service discovery run the below manifest it will configure(Alert management to gmail)
+
+video: Abhishek veeramalla(Learn obervability in 5 hours)2:45:00 
+
+alertmanagement.yaml---config file
+
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: main-rules-alert-config
+  namespace: dev
+  labels:
+    release: prometheus
+spec:
+  route:
+    repeatInterval: 30m
+    receiver: 'null'
+    routes:
+    - matchers:
+      - name: alertname
+        value: HighCpuUsage
+      receiver: 'send-email'
+    - matchers:
+      - name: alertname
+        value: PodRestart
+      receiver: 'send-email'
+      repeatInterval: 5m
+  receivers:
+  - name: 'send-email'
+    emailConfigs:
+    - to: YOUR_EMAIL_ID
+      from: YOUR_EMAIL_ID
+      sendResolved: false
+      smarthost: smtp.gmail.com:587
+      authUsername: YOUR_EMAIL_ID
+      authIdentity: YOUR_EMAIL_ID
+      authPassword:
+        name: mail-pass
+        key: gmail-pass
+  - name: 'null'
 
 
 
