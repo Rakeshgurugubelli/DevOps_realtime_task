@@ -23,3 +23,18 @@ Step-2: Click on the dashboards, and click on New and select import
 Step-3: In search serach with 14513 and click on Load, select the datasource of the prometheus and click on Import
 
 ![image](https://github.com/user-attachments/assets/4019bc4f-56e5-4d26-b026-3674541d73d7)
+
+**how to custom metrices**
+
+Step-1: login into the aws terminal
+
+Step-2: Expose the application and verify it is access through browser
+
+**our requirement we exposed our application using load balancer with port of 3001**
+
+
+
+
+
+
+
