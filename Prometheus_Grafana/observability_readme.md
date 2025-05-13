@@ -78,8 +78,8 @@ Ans.) by using traces we can troubleshoot, fixing theissues
 
 
 
-
-
+**logging**
+EFK stack: 
 
 
 **Grafana:**
