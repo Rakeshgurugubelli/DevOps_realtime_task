@@ -1,1 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vernemq
+  labels:
+    app: vernemq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vernemq
+  template:
+    metadata:
+      labels:
+        app: vernemq
+    spec:
+      serviceAccountName: vernemq-sa  # Make sure you have a service account for VerneMQ if needed
+      containers:
+        - name: vernemq
+          image: vernemq/vernemq:latest
+          ports:
+            - containerPort: 1883
+              name: mqtt
+            - containerPort: 8888
+              name: mqtt-ws
+          env:
+            - name: DOCKER_VERNEMQ_ALLOW_ANONYMOUS
+              value: "on"
+            - name: VMQ_ACCEPT_EULA
+              value: "yes"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /vernemq/etc/vernemq.conf
+              subPath: vernemq.conf
+            - name: data-volume
+              mountPath: /vernemq/data
+      volumes:
+        - name: config-volume
+          configMap:
+            name: vernemq-config  # ConfigMap containing the vernemq.conf file
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: vernemq-pvc  # PVC for data persistence (if needed)
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vernemq
+spec:
+  ports:
+    - port: 1883
+      targetPort: 1883
+      protocol: TCP
+      name: mqtt
+    - port: 8888
+      targetPort: 8888
+      protocol: TCP
+      name: mqtt-ws
+  selector:
+    app: vernemq
+  type: ClusterIP
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vernemq-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi  # Adjust the storage size based on your needs
+  storageClassName: gp2  # You can adjust the storage class based on your EKS setup
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vernemq-config
+data:
+  vernemq.conf: |
+    # Insert the contents of your vernemq.conf file here
+    allow_anonymous = on
+    listener.tcp.default = 0.0.0.0:1883
+    listener.ws.default = 0.0.0.0:8888
+    accept_eula = yes
+    # Add more VerneMQ configurations as necessary
 
