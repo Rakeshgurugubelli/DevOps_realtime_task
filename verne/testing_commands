@@ -1,0 +1,17 @@
+Test MQTT Connection Using mosquitto_pub and mosquitto_sub:
+If the container is running and you're able to connect to the MQTT broker, you can use MQTT client tools like mosquitto_pub and mosquitto_sub to test publishing and subscribing to topics.
+
+Install mosquitto Client Tools:
+sudo apt install mosquitto-clients
+
+Test Subscribe:
+Open one terminal and use mosquitto_sub to subscribe to a topic, such as test/topic:
+mosquitto_sub -h <vernemq_host> -t test/topic -v
+Replace <vernemq_host> with the IP address or hostname of your VerneMQ instance. If you're running it locally, use localhost or 127.0.0.1.
+
+Test Publish:
+Open another terminal and use mosquitto_pub to publish a message to that topic:
+mosquitto_pub -h <vernemq_host> -t test/topic -m "Hello, VerneMQ!"
+You should see the message Hello, VerneMQ! appear in the terminal where you subscribed.
+
+http://<vernemq_host>:8888
