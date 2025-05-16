@@ -150,5 +150,25 @@ spec:
         key: gmail-pass
   - name: 'null'
 
+**Logging with EFK Stack:**
+ 
+Log means mesages written by the developer to understand the enduser 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
