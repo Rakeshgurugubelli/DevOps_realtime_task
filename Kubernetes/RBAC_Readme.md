@@ -50,9 +50,9 @@ Just like users need permission to access resources, service accounts do too —
 
 Step-1: Generate Private Key and CSR
 
-openssl genrsa -out dev-user.key 2048
+openssl genrsa -out dev-user1.key 2048
 
-openssl req -new -key dev-user.key -out dev-user.csr -subj "/CN=dev-user/O=dev-group"
+openssl req -new -key dev-user1.key -out dev-user.csr -subj "/CN=dev-user/O=dev-group"
 
 **CN=dev-user will be the username, and O=dev-group is the group.**
 
@@ -116,6 +116,8 @@ Step-9: check the available cluster
 
 kubectl config get-clusters
 
+kubectl config get-contexts
+
 kubectl config use-context dev-user1-context
 
 Step-10: check able to Switch to the dev user, again to admin user
@@ -135,20 +137,25 @@ rules:
   resources: ["pods"]
   verbs: ["get", "list"]
 
-  Step-12: creat a role binding
+Step-12: creat a role binding
 
-  kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
 metadata:
   name: dev-group-viewer
   namespace: default
 roleRef:
   kind: Role
-  name: view
+  name: dev-role
   apiGroup: rbac.authorization.k8s.io
 subjects:
 - kind: Group
   name: dev-group  # matches the O field in the cert
   apiGroup: rbac.authorization.k8s.io
+
+Step-3: check the authentication
+
+kubectl config use-context arn:aws:eks:ap-south-1:725157737674:cluster/chromosome-cluster
 
 
 
