@@ -5,6 +5,7 @@ Ans.) if we have observability setup we can get the information of internal stat
       we can get the information cpu utilization of yhe node
       memory utilization
       we can get http requests success or failure
+
 2.) why is observability?
 
 Ans.) By using observability we can find the failures and also helps to fix it 
@@ -69,17 +70,13 @@ Ans.) by using traces we can troubleshoot, fixing theissues
     Instrumentation: when developer setup metrics,logs, traces in the application then that is called as instrumentation
    
    **Metrics:** Total 4 types of metrics we have 
-                1.) **counter:** eg: logging into the application or HTTp request (when user logged in the application count will be increase that comes under counter metric type) 
+                1.) **counter:** eg: logging into the application or HTTp request (when user logged in the application count will be increase that comes under 
+                                     counter metric type) 
                 2.) **gauge** eg: cpu utilization(In cpu utilization it will increase or decrease so we can guage metrics )
-                3.) **histogram**In histogram will create buckets like(Anyone ask how many times my https request taking more than 5ms or how many times cpu utilization is more than 50 percent this scenario 
-                                                                       will use this histogram metrics)
+                3.) **histogram**In histogram will create buckets like(Anyone ask how many times my https request taking more than 5ms or how many times cpu 
+                                 utilization is more than 50 percent this scenario will use this histogram metrics)
                  4.) **summary**:
 
-
-
-
-**logging**
-EFK stack: 
 
 
 **Grafana:**
