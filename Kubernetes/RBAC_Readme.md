@@ -8,7 +8,9 @@ RBAC controls who can do what in your Kubernetes cluster.
 
 **User:** a person or service (like a CI/CD pipeline).
 
+
 **Role:** a set of permissions (e.g., "can read pods", "can create services").
+
 
 **Binding:** connects a user to a role.
 
