@@ -64,7 +64,7 @@ Ans.) by using traces we can troubleshoot, fixing theissues
 
   . Dashboards in Grafana pull data using PromQL to visualize metrics.
 
-  pometheus scrapes metrics from node exporter(cpu, memory), kube state metrics(Api server), custom metrics(http request, login authentication) and stores them in timeseries database
+ pometheus scrapes metrics from node exporter(cpu, memory), kube state metrics(Api server), custom metrics(http request, login authentication) and stores them in timeseries database
 
 **custom metrices:**
     Instrumentation: when developer setup metrics,logs, traces in the application then that is called as instrumentation
