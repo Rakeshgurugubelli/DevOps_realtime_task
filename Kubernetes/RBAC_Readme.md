@@ -51,6 +51,8 @@ Just like users need permission to access resources, service accounts do too —
 Step-1: Generate Private Key and CSR
 
 openssl genrsa -out dev-user.key 2048
+
 openssl req -new -key dev-user.key -out dev-user.csr -subj "/CN=dev-user/O=dev-group"
+
 
 **CN=dev-user will be the username, and O=dev-group is the group.**
