@@ -46,3 +46,12 @@ A Service Account is an identity used by pods (applications) to interact with th
 
 Just like users need permission to access resources, service accounts do too — and that's where RBAC roles and permissions come in.
 
+**🔧 Step-by-Step: RBAC with Certificate Authentication**
+
+Step-1: Generate Private Key and CSR
+
+openssl genrsa -out dev-user.key 2048
+
+openssl req -new -key dev-user.key -out dev-user.csr -subj "/CN=dev-user/O=dev-group"
+
+**CN=dev-user will be the username, and O=dev-group is the group.**
