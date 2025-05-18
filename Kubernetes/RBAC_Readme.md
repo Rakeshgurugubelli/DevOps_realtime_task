@@ -180,7 +180,7 @@ Step-3:  Create a Kubernetes CSR Object
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata:
-  name: dev-user1
+  name: dev
 spec:
   request: <base64-encoded-csr>
   signerName: kubernetes.io/kube-apiserver-client
@@ -195,13 +195,13 @@ kubectl apply -f dev-csr.yaml
 
 Step-5: Approve the CSR
 
-kubectl certificate approve dev-user1
+kubectl certificate approve dev
 
 ![image](https://github.com/user-attachments/assets/f2d20cbd-a905-4003-8802-9da47b7d1e10)
 
 Step-6: Downloaded the signed certificate
 
-kubectl get csr dev-user1 -o jsonpath='{.status.certificate}' | base64 -d > dev-user1.crt
+kubectl get csr dev -o jsonpath='{.status.certificate}' | base64 -d > dev.crt
 
 
   
