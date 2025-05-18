@@ -93,7 +93,7 @@ kubectl get csr dev-user1 -o jsonpath='{.status.certificate}' | base64 -d > dev-
 
 Step-7: To view kubeconfig 
 
-cat ~./kube/config
+cat ~/.kube/config
 
 Step-8: configure kubectl for the user
 
@@ -191,7 +191,8 @@ Step-4: Apply the manifest file dev-user-csr.yaml
 
 kubectl apply -f dev-csr.yaml
 
-![image](https://github.com/user-attachments/assets/14416046-dcf3-4acf-a527-7bb2014a293e)
+![image](https://github.com/user-attachments/assets/d1cb2c8d-c51d-42c9-89ef-04f170c315b9)
+
 
 Step-5: Approve the CSR
 
@@ -203,5 +204,89 @@ Step-6: Downloaded the signed certificate
 
 kubectl get csr dev -o jsonpath='{.status.certificate}' | base64 -d > dev.crt
 
+Step-7: To view kubeconfig 
 
-  
+cat ~/.kube/config
+
+Step-8: configure kubectl for the user
+
+kubectl config set-credentials dev \
+  --client-certificate=dev.crt \
+  --client-key=dev.key
+
+![image](https://github.com/user-attachments/assets/441ff2d7-3d62-4a83-aaf7-4e0dec3228b9)
+
+kubectl config set-context dev-context \
+  --cluster=chromosome-cluster \
+  --namespace=default \
+  --user=dev
+
+![image](https://github.com/user-attachments/assets/d34cc8c0-13f4-4758-94e2-8680bc06a123)
+
+Step-9: check the available cluster 
+
+kubectl config get-clusters
+
+kubectl config get-contexts
+
+kubectl config use-context dev-context
+
+Step-10: check able to Switch to the dev user, again to admin user
+
+kubectl config use-context dev-context
+![image](https://github.com/user-attachments/assets/10f81c77-7d53-4b73-a4f2-cfa6816bcec8)
+
+Step-11: cluster role & cluster role binding
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pod-manager
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["create"]
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: read-pods-global
+subjects:
+- kind: User
+  name: dev-user1              # user from your kubeconfig or certificate
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: read-pods-global
+subjects:
+- kind: User
+  name: dev-user1              # user from your kubeconfig or certificate
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io
+
