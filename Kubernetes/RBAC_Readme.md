@@ -153,12 +153,55 @@ subjects:
   name: dev-group  # matches the O field in the cert
   apiGroup: rbac.authorization.k8s.io
 
-Step-3: check the authentication
+Step-13: check the authentication
 
 kubectl config use-context arn:aws:eks:ap-south-1:725157737674:cluster/chromosome-cluster
 
 
+**cluster role and custer role binding**
 
+Step-1: Generate Private Key and CSR
+
+openssl genrsa -out dev.key 2048
+
+openssl req -new -key dev.key -out dev.csr -subj "/CN=dev"
+
+**CN=dev-user will be the username, and O=dev-group is the group.**
+
+Step-2: for the base64 encoded ecr 
+
+cat dev.csr | base64 | tr -d '\n'
+
+![image](https://github.com/user-attachments/assets/ecfb3125-3881-41cd-b6ba-fe610db3b5b1)
+
+Step-3:  Create a Kubernetes CSR Object
+
+# dev-csr.yaml
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: dev-user1
+spec:
+  request: <base64-encoded-csr>
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - client auth
+
+Step-4: Apply the manifest file dev-user-csr.yaml 
+
+kubectl apply -f dev-csr.yaml
+
+![image](https://github.com/user-attachments/assets/14416046-dcf3-4acf-a527-7bb2014a293e)
+
+Step-5: Approve the CSR
+
+kubectl certificate approve dev-user1
+
+![image](https://github.com/user-attachments/assets/f2d20cbd-a905-4003-8802-9da47b7d1e10)
+
+Step-6: Downloaded the signed certificate
+
+kubectl get csr dev-user1 -o jsonpath='{.status.certificate}' | base64 -d > dev-user1.crt
 
 
   
