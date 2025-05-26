@@ -50,3 +50,64 @@ Makes Kafka “Kubernetes native”
 
 strimizi-customresource.yml
 
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: strimzi-kafka-cluster
+  namespace: strimzi
+spec:
+  kafka:
+    version: 3.5.1
+    replicas: 1
+    config:
+      offsets.topic.replication.factor: 1
+      transaction.state.log.replication.factor: 1
+      transaction.state.log.min.isr: 1
+      auto.create.topics.enable: "true"
+    listeners:
+      - name: internal
+        port: 9092
+        type: internal
+        tls: false
+          #  authentication:
+          # type: scram-sha-512
+      - name: external
+        port: 9093
+        type: loadbalancer
+        tls: true
+        authentication:
+          type: scram-sha-512
+        configuration:
+          bootstrap:
+            annotations:
+              service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+              service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:730335348812:certificate/16966c84-1872-45f8-8dac-66ceacf58cf2
+              service.beta.kubernetes.io/aws-load-balancer-backend-protocol: ssl
+              service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "9093"
+          brokers:
+            - broker: 0
+              annotations:
+                service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+                service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:730335348812:certificate/16966c84-1872-45f8-8dac-66ceacf58cf2
+                service.beta.kubernetes.io/aws-load-balancer-backend-protocol: ssl
+                service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "9093"
+
+    authorization:
+      type: simple  # <-- Add this block to enable ACLs
+    storage:
+      type: persistent-claim
+      size: 100Gi
+      class: efs-sc
+      deleteClaim: false
+
+  zookeeper:
+    replicas: 1
+    storage:
+      type: persistent-claim
+      size: 10Gi
+      class: efs-sc
+      deleteClaim: false
+
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
