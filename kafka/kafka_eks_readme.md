@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/7a640dab-7f18-408c-9a35-d32c74c5127c)**Installing kafka on eks using strimzi**
+**Installing kafka on eks using strimzi**
 
 Step-1: create a namespace of kafka or strimzi based on requirement
 
