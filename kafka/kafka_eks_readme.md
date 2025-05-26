@@ -1,5 +1,7 @@
 **Installing kafka on eks using strimzi**
 
+it won't on ALB will work on nlb
+
 **Step-1:** create a namespace of kafka or strimzi based on requirement
 
 ![image](https://github.com/user-attachments/assets/c9d34afb-f009-42e4-863e-6f419bae6992)
@@ -33,4 +35,18 @@ Makes Kafka “Kubernetes native”
 **command**: kubectl apply -f https://strimzi.io/install/latest?namespace=kafka -n kafka
 
 ![image](https://github.com/user-attachments/assets/b6aa8e0f-78a1-4801-a021-1ee50f0db14f)
+
+**Step-3:** Create a custom resource
+
+**why custom resource of kafka**
+
+**Declarative Kafka cluster management:** Instead of manually installing and configuring kafka and zookeeper,you define your Kafka cluster’s desired state in a YAML file
+
+**Operator automation:** Automates the lifecycle: creating, updating, scaling, and recovering Kafka clusters according to the YAML spec.
+
+**Simplifies complex setups:** Kafka and Zookeeper clusters have many components and configs. Custom resources let you manage all of these as a single unit, instead of handling each piece individually.
+
+**Consistent and repeatable:** You can version-control your Kafka CR manifests, making your Kafka infrastructure consistent and easy to reproduce across environments.
+
+strimizi-customresource.yml
 
