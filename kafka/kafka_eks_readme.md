@@ -32,9 +32,13 @@ Manages users, topics, and TLS certs
 
 Makes Kafka “Kubernetes native”
 
-**command**: kubectl apply -f https://strimzi.io/install/latest?namespace=kafka -n kafka
+**command**: helm install strimzi-operator strimzi/strimzi-kafka-operator \
+  --version 0.37.0 \
+  --namespace kafka \
+  --create-namespace
 
-![image](https://github.com/user-attachments/assets/b6aa8e0f-78a1-4801-a021-1ee50f0db14f)
+![image](https://github.com/user-attachments/assets/f2b416b8-2d2b-43fe-9fa9-c242c565330a)
+
 
 **Step-3:** Create a custom resource
 
@@ -48,13 +52,13 @@ Makes Kafka “Kubernetes native”
 
 **Consistent and repeatable:** You can version-control your Kafka CR manifests, making your Kafka infrastructure consistent and easy to reproduce across environments.
 
-strimizi-customresource.yml
+**strimizi-customresource.yml**
 
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
   name: strimzi-kafka-cluster
-  namespace: strimzi
+  namespace: kafka
 spec:
   kafka:
     version: 3.5.1
@@ -69,8 +73,8 @@ spec:
         port: 9092
         type: internal
         tls: false
-          #  authentication:
-          # type: scram-sha-512
+        authentication:
+          type: scram-sha-512
       - name: external
         port: 9093
         type: loadbalancer
@@ -81,33 +85,37 @@ spec:
           bootstrap:
             annotations:
               service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-              service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:730335348812:certificate/16966c84-1872-45f8-8dac-66ceacf58cf2
               service.beta.kubernetes.io/aws-load-balancer-backend-protocol: ssl
               service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "9093"
           brokers:
             - broker: 0
               annotations:
                 service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-                service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:730335348812:certificate/16966c84-1872-45f8-8dac-66ceacf58cf2
                 service.beta.kubernetes.io/aws-load-balancer-backend-protocol: ssl
                 service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "9093"
-
     authorization:
-      type: simple  # <-- Add this block to enable ACLs
+      type: simple
     storage:
-      type: persistent-claim
-      size: 100Gi
-      class: efs-sc
-      deleteClaim: false
-
+      type: ephemeral
   zookeeper:
     replicas: 1
     storage:
-      type: persistent-claim
-      size: 10Gi
-      class: efs-sc
-      deleteClaim: false
-
+      type: ephemeral
   entityOperator:
     topicOperator: {}
     userOperator: {}
+
+**Step-4:** Once the custom resource is deployed verify logs of each pod with no errors and services are created
+
+kubectl get pod -n kafka
+
+![image](https://github.com/user-attachments/assets/8d19b060-c200-4ee3-bcf3-bdea63c894b7)
+
+kubectl get svc -n kafka
+
+![image](https://github.com/user-attachments/assets/0508465b-57c7-4630-8480-bcfac2a2f97e)
+
+verify the logs of each pod, ensure no errors
+
+**Step-5:** 
+  
