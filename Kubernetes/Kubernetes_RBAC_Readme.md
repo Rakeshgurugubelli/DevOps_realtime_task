@@ -35,5 +35,11 @@ command:
 
 ![image](https://github.com/user-attachments/assets/4e9c0875-6191-4b85-9120-293f33929dd2)
 
+**Step2** Add admin access to the user(by using below command we can do admin access)
+
+command:
+
+        usermod -aG sudo rakesh
+
 
 
