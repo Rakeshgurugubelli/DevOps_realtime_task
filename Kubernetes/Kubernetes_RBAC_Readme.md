@@ -23,7 +23,7 @@ A Service Account is an identity used by pods (applications) to interact with th
 
 Just like users need permission to access resources, service accounts do too — and that's where RBAC roles and permissions come in.
 
-**Below steps are implementing the cluster and role binding**
+**Below steps are implementing the cluster and role binding in kuberenetes or kubeadm**
 
 **Step-1:** Create a user & setup  password
 
@@ -73,7 +73,9 @@ command:
 
         openssl x509 -req -in rakesh.csr - CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out rakesh.crt -days 365
 
-**Step-7:** Run the below cmd to view the configmap of aws-auth
+**Below steps are implementing the cluster and role binding in EKS**
+
+**Step-1:** Run the below cmd to view the configmap of aws-auth
 
 command: 
 
@@ -81,11 +83,11 @@ command:
 
 ![image](https://github.com/user-attachments/assets/bf29f79d-7c10-474b-866c-7573ce3e123c)
 
-**Step-8:** Edit the configmap, add the mapuser under the maproles
+**Step-2:** Edit the configmap, add the mapuser under the maproles
 
 command:
 
-          kubectl get configmap aws-auth -n kube-system
+          kubectl edit configmap aws-auth -n kube-system
 
 **aws-auth.yml**
 
@@ -111,4 +113,12 @@ data:
       groups:
         - dev-group
 
+**Step-9:** Run the below command to update the context 
 
+aws eks update-kubeconfig --region ap-south-1 --name chromosome-cluster --profile rakesh
+
+![image](https://github.com/user-attachments/assets/5d3cecfc-af60-4c46-bc33-a4599053b4cf)
+
+kube config available in root/.kube/config
+
+**Step-10:** 
