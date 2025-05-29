@@ -41,5 +41,15 @@ command:
 
         usermod -aG sudo rakesh
 
+**Step-3:** create a directory in the tmp folder or any folder based on requirement and go inside the folder
+
+command:
+
+        mkdir /tmp/rbac
+
+![image](https://github.com/user-attachments/assets/a1afe566-a263-454d-a981-e40bbdb2de2c)
+
+
+
 
 
