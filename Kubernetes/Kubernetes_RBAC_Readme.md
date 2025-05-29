@@ -29,9 +29,9 @@ Just like users need permission to access resources, service accounts do too —
 
 command:  
         
-         . useradd rakesh 
+         useradd rakesh 
          
-         . passwd rakesh
+         passwd rakesh
 
 ![image](https://github.com/user-attachments/assets/4e9c0875-6191-4b85-9120-293f33929dd2)
 
