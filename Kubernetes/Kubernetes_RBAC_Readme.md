@@ -73,11 +73,42 @@ command:
 
         openssl x509 -req -in rakesh.csr - CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out rakesh.crt -days 365
 
-**Step-7:** Run  the below to edit configmap
+**Step-7:** Run the below cmd to view the configmap of aws-auth
 
 command: 
 
         kubectl get configmap aws-auth -n kube-system -o yaml
 
+![image](https://github.com/user-attachments/assets/bf29f79d-7c10-474b-866c-7573ce3e123c)
+
+**Step-8:** Edit the configmap, add the mapuser under the maproles
+
+command:
+
+          kubectl get configmap aws-auth -n kube-system
+
+**aws-auth.yml**
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+  creationTimestamp: "2025-05-26T14:39:12Z"
+  resourceVersion: "1308"
+  uid: 7ef62699-d5f6-4476-a690-a7dcbc0e2cfe
+data:
+  mapRoles: |
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::725157737674:role/eksctl-chromosome-cluster-nodegrou-NodeInstanceRole-kx0Wqhc0iijp
+      username: system:node:{{EC2PrivateDNSName}}
+
+  mapUsers: |
+    - userarn: arn:aws:iam::123456789012:user/rakesh
+      username: rakesh
+      groups:
+        - dev-group
 
 
