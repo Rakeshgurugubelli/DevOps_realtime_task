@@ -23,7 +23,7 @@ A Service Account is an identity used by pods (applications) to interact with th
 
 Just like users need permission to access resources, service accounts do too — and that's where RBAC roles and permissions come in.
 
-**Below steps are implementing the cluster and role binding in kuberenetes or kubeadm**
+**implementing the cluster and role binding for kubeadm and kops**
 
 **Step-1:** Create a user & setup  password
 
@@ -49,7 +49,6 @@ command:
 
 ![image](https://github.com/user-attachments/assets/a1afe566-a263-454d-a981-e40bbdb2de2c)
 
- **Step-4,5,6 is not required when we working eks directly go to step-7 if we are working with eks**
 
 **step-4:** Create a key for the user 
 
@@ -73,32 +72,27 @@ command:
 
         openssl x509 -req -in rakesh.csr - CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out rakesh.crt -days 365
 
-**Below steps are implementing the cluster and role binding in EKS**
+**implementing the cluster and role binding in EKS**
 
-**Step-1:** Run the below cmd to view the configmap of aws-auth
+  **First create a user and provide admin access to it**
 
-command: 
+**Step-1:** create a user either by using cli or command
 
-        kubectl get configmap aws-auth -n kube-system -o yaml
+![image](https://github.com/user-attachments/assets/2b0e23b1-7b64-4532-97c0-70c4e6676302)
 
-![image](https://github.com/user-attachments/assets/bf29f79d-7c10-474b-866c-7573ce3e123c)
+**Step-2:** Copy the access key and secret key of the user and add admin access to the user
 
-**Step-2:** Edit the configmap, add the mapuser under the maproles
+**Step-3:** Edit configmap by using below command and the user in the mapusers
 
-command:
+kubectl get configmap aws-auth -n kube-system -o yaml > current-aws-auth.yaml
 
-          kubectl edit configmap aws-auth -n kube-system
-
-**aws-auth.yml**
+**current-aws-auth.yaml**
 
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: aws-auth
   namespace: kube-system
-  creationTimestamp: "2025-05-26T14:39:12Z"
-  resourceVersion: "1308"
-  uid: 7ef62699-d5f6-4476-a690-a7dcbc0e2cfe
 data:
   mapRoles: |
     - groups:
@@ -106,19 +100,21 @@ data:
       - system:nodes
       rolearn: arn:aws:iam::725157737674:role/eksctl-chromosome-cluster-nodegrou-NodeInstanceRole-kx0Wqhc0iijp
       username: system:node:{{EC2PrivateDNSName}}
-
   mapUsers: |
-    - userarn: arn:aws:iam::123456789012:user/rakesh
+    - userarn: arn:aws:iam::725157737674:user/rakesh
       username: rakesh
       groups:
-        - dev-group
+        - system:masters
 
-**Step-9:** Run the below command to update the context 
+      kubectl apply -f current-aws-auth.yaml
+      
+      aws eks update-kubeconfig --region ap-south-1 --name chromosome-cluster
 
-aws eks update-kubeconfig --region ap-south-1 --name chromosome-cluster --profile rakesh
+**Step-4:** Run the below command and provide creditinals verify able to run kubectl commands
 
-![image](https://github.com/user-attachments/assets/5d3cecfc-af60-4c46-bc33-a4599053b4cf)
+         aws configure
 
-kube config available in root/.kube/config
+         aws sts get-caller-identity
 
-**Step-10:** 
+![image](https://github.com/user-attachments/assets/61b3918c-0d20-4950-8c8f-ce4dd4ba9b37)
+
