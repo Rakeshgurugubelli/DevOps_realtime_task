@@ -84,7 +84,7 @@ command:
 
 **Step-3:** Edit configmap by using below command and the user in the mapusers
 
-kubectl get configmap aws-auth -n kube-system -o yaml > current-aws-auth.yaml
+       kubectl get configmap aws-auth -n kube-system -o yaml > current-aws-auth.yaml
 
 **current-aws-auth.yaml**
 
