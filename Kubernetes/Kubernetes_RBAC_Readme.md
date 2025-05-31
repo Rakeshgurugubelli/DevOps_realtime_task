@@ -118,3 +118,14 @@ data:
 
 ![image](https://github.com/user-attachments/assets/61b3918c-0d20-4950-8c8f-ce4dd4ba9b37)
 
+
+**After completing the above 4 steps recommended to start below steps**
+
+**Step-5:** Create a namespace  based on requirement and run a pod
+
+           kubectl create ns kafka
+
+           kubectl get pod -n kafka
+
+![image](https://github.com/user-attachments/assets/dd0833b7-05c3-44d0-9549-fe49718743f3)
+
