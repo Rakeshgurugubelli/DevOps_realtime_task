@@ -129,3 +129,46 @@ data:
 
 ![image](https://github.com/user-attachments/assets/dd0833b7-05c3-44d0-9549-fe49718743f3)
 
+**Step-6:** Create a user  and create acesskey using the cli or console
+
+           aws iam create-user --user-name kafka-user
+
+           aws iam create-access-key --user-name kafka-user
+
+
+![image](https://github.com/user-attachments/assets/14484ea8-dade-4fcc-ba31-ab20e0d8fef0)
+
+![image](https://github.com/user-attachments/assets/478852d4-885a-4772-8cd4-5d928858b4be)
+           
+
+**step-7:** Create a user in the terminal,login to that user and add access & secret key to the user
+
+![image](https://github.com/user-attachments/assets/213ba94c-1706-4bea-bd28-68d55040047d)
+
+**step-8:** Now login back to the root user and map an iam user to k8s
+
+**current_aws_auth.yml**
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - groups:
+      - system:bootstrappers
+      - system:nodes
+      rolearn: arn:aws:iam::725157737674:role/eksctl-chromosome-cluster-nodegrou-NodeInstanceRole-kx0Wqhc0iijp
+      username: system:node:{{EC2PrivateDNSName}}
+  mapUsers: |
+    - userarn: arn:aws:iam::725157737674:user/rakesh
+      username: rakesh
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::725157737674:user/kafka
+      username: kafka
+
+![image](https://github.com/user-attachments/assets/4f248183-e20b-44f2-aa64-8a02cfaeeb13)
+
+**Step-9:**
