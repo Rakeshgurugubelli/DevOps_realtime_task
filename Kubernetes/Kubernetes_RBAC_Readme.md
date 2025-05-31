@@ -166,9 +166,61 @@ data:
       username: rakesh
       groups:
         - system:masters
-    - userarn: arn:aws:iam::725157737674:user/kafka
-      username: kafka
+    - userarn: arn:aws:iam::725157737674:user/kafka-user
+      username: kafka-user
 
-![image](https://github.com/user-attachments/assets/4f248183-e20b-44f2-aa64-8a02cfaeeb13)
+![image](https://github.com/user-attachments/assets/03f1f38f-d3cd-4823-a116-35599d4cfc21)
 
-**Step-9:**
+
+**Step-9:** Now login back to the user and the run the kubectl commands it will throw error(Expected)
+
+**why because user we mapped in config but not provide the permissions**
+
+![image](https://github.com/user-attachments/assets/5dfa50a7-6e5b-423d-a7b4-4b82a24ace6c)
+
+**Step-10:** create a role and role binding to the user from the admin access 
+
+**rbaccluster-role.yml**
+
+# kafka-read-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: kafka
+  name: kafka-pod-deploy-reader
+rules:
+- apiGroups: [""] #"" core api group
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["extensions","apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch"]
+
+![image](https://github.com/user-attachments/assets/7f218805-8c0b-4fcb-888d-83ab626b2f20)
+
+**rbaccluster-role-binding.yml**
+
+# kafka-rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kafka-reader-binding
+  namespace: kafka
+subjects:
+- kind: User
+  name: kafka-user            # This must match the 'username' in aws-auth
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: kafka-pod-deploy-reader
+  apiGroup: rbac.authorization.k8s.io
+
+![image](https://github.com/user-attachments/assets/48a429e5-344d-4808-b213-ef27185d107f)
+
+Step-11:
+
+      aws sts get-caller-identity
+
+      
+![image](https://github.com/user-attachments/assets/8d1a3a07-b503-470d-ac01-fe28df265d7b)
+
