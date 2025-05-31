@@ -1,4 +1,4 @@
-**Authentication:** In Kubernetes, authentication validates the identity of a user or service account making a request to the API server.
+![image](https://github.com/user-attachments/assets/66a93f53-fca7-4d7e-8365-bfe19ff71547)![image](https://github.com/user-attachments/assets/ef3745a8-bddb-420e-b9eb-9bfd79272d83)**Authentication:** In Kubernetes, authentication validates the identity of a user or service account making a request to the API server.
 
 Example: When you run kubectl, Kubernetes checks your credentials (like tokens or certificates) to verify your identity.
 
@@ -194,3 +194,159 @@ sudo chmod -R 700 /home/kafka/.kube
 ![image](https://github.com/user-attachments/assets/d58cb166-0781-4fac-a147-60d1d9fb131c)
 
 **implementing the cluster and role binding in EKS**-------**group**
+
+**Step-1:** create a users
+
+![image](https://github.com/user-attachments/assets/b0a67c98-34eb-4625-974b-3e5e705a5158)
+
+**Step-2:** Copy the access and sceret of the user
+
+![image](https://github.com/user-attachments/assets/06b11e38-bc45-456d-b7ed-b4b9d1d2af7c)
+
+**Step-3:** Map an Iam user 
+
+**current-aws-auth.yaml**
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - groups:
+        - system:bootstrappers
+        - system:nodes
+      rolearn: arn:aws:iam::725157737674:role/eksctl-chromosome-cluster-nodegrou-NodeInstanceRole-kx0Wqhc0iijp
+      username: system:node:{{EC2PrivateDNSName}}
+  mapUsers: |
+    - userarn: arn:aws:iam::725157737674:user/rakesh
+      username: rakesh
+      groups:
+        - system:masters
+    - userarn: arn:aws:iam::725157737674:user/kafka-user
+      username: kafka-user
+      groups:
+        - dev-group
+    - userarn: arn:aws:iam::725157737674:user/kafka-user2
+      username: kafka-user2
+      groups:
+        - dev-group
+    - userarn: arn:aws:iam::725157737674:user/kafka-user3
+      username: kafka-user3
+      groups:
+        - dev-group
+    - userarn: arn:aws:iam::725157737674:user/kafka-user4
+      username: kafka-user4
+      groups:
+        - qa-group
+
+![image](https://github.com/user-attachments/assets/7013d866-a986-41bb-a1db-e8af7bc8b397)
+
+**Step-4:** Create ClusterRole / Role and RoleBindings
+
+**dev-role.yml**
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: kafka
+  name: kafka-pod-reader-dev
+rules:
+- apiGroups: [""] #"" core api group
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+
+![image](https://github.com/user-attachments/assets/9c739999-3ea3-4f4f-af4b-967494a54338)
+
+**dev-role-binding.yml**
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: dev-group-binding
+  namespace: kafka
+subjects:
+- kind: Group
+  name: dev-group
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: kafka-pod-reader-dev
+  apiGroup: rbac.authorization.k8s.io
+
+![image](https://github.com/user-attachments/assets/3b28326b-e828-43fd-b79f-a87342d9397e)
+
+**qa-role.yml**
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: kafka
+  name: kafka-pod-reader-qa
+rules:
+- apiGroups: ["extensions","apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch"]
+
+![image](https://github.com/user-attachments/assets/b409b9fa-8524-4c7b-93d5-f8ad68d1fc1d)
+
+**qa-role-binding.yml**
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: qa-group-binding
+  namespace: kafka
+subjects:
+- kind: Group
+  name: qa-group
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: kafka-pod-reader-qa
+  apiGroup: rbac.authorization.k8s.io
+
+![image](https://github.com/user-attachments/assets/941f7154-ddcb-43db-8d98-a43fe852a7cb)
+
+**Step-5:** Now verify logged into the users
+
+kafka-user2
+
+![image](https://github.com/user-attachments/assets/40df5b8a-a688-428b-af8c-a52412a14b8c)
+
+kafka-user3
+
+![image](https://github.com/user-attachments/assets/0a323383-abb4-49eb-b99f-6286850392b1)
+
+kafka-user4
+
+![image](https://github.com/user-attachments/assets/c382aafc-7312-473f-88b6-d381d0084bd2)
+
+**multiple groups**
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapUsers: |
+    - userarn: arn:aws:iam::123456789012:user/multi-role-user
+      username: multi-role-user
+      groups:
+        - dev-group
+        - qa-group
+        - read-only
+
+**particular pod**
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: kafka
+  name: kafka-specific-pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  resourceNames: ["kafka-broker-0"]
+  verbs: ["get", "list"]
+
