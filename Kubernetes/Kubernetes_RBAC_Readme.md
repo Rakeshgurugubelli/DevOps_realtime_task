@@ -224,11 +224,13 @@ Step-11:
       
 ![image](https://github.com/user-attachments/assets/8d1a3a07-b503-470d-ac01-fe28df265d7b)
 
+
+Step-12:
+
 export AWS_ACCESS_KEY_ID=AKIA2RVWE6TFDE7FCR6Ehhh
 export AWS_SECRET_ACCESS_KEY=5QxUWGQj2dCYN5JRf1tLikuoNnDYD21BLiK4pfov
 export AWS_DEFAULT_REGION=ap-south-1
 
-Step-12:
 
 aws eks update-kubeconfig \
   --region ap-south-1 \
@@ -240,5 +242,6 @@ sudo chown -R kafka:kafka /home/kafka/.kube
 sudo chmod -R 700 /home/kafka/.kube
 
 ![image](https://github.com/user-attachments/assets/d58cb166-0781-4fac-a147-60d1d9fb131c)
+
 
   
