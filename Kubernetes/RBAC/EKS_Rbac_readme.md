@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/66a93f53-fca7-4d7e-8365-bfe19ff71547)![image](https://github.com/user-attachments/assets/ef3745a8-bddb-420e-b9eb-9bfd79272d83)**Authentication:** In Kubernetes, authentication validates the identity of a user or service account making a request to the API server.
+**Authentication:** In Kubernetes, authentication validates the identity of a user or service account making a request to the API server.
 
 Example: When you run kubectl, Kubernetes checks your credentials (like tokens or certificates) to verify your identity.
 
