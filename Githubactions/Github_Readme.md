@@ -13,4 +13,8 @@ But in Github we have runners(similar to slave)
           
 **Setup**
 
-Step-1: create a repository 
+Step-1: create a repository, push the code to the github 
+
+![image](https://github.com/user-attachments/assets/7d588f7e-7053-4b5d-a099-5fc81d3676b1)
+
+Step-2: For shared runners click on Actions and select the template
