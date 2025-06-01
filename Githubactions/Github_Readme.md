@@ -103,4 +103,10 @@ click on New repository secret, add access & secret key
 
 ![image](https://github.com/user-attachments/assets/c19adb46-7406-48b2-bf43-d1f2c46cb27f)
 
-**Step-5:** 
+**Step-5:** Setup a self-hosted runner
+
+**click on project repository and click on settings, click on actions under code and automation**
+
+![image](https://github.com/user-attachments/assets/c5dfa6ad-de80-461a-b018-55c32791cf5b)
+
+click on new self hosted runner and run the commands
