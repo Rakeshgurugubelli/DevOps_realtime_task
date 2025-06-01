@@ -109,4 +109,4 @@ click on New repository secret, add access & secret key
 
 ![image](https://github.com/user-attachments/assets/c5dfa6ad-de80-461a-b018-55c32791cf5b)
 
-click on new self hosted runner and run the commands
+click on new self hosted runner and run the commands in the server
