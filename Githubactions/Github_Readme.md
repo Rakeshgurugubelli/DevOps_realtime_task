@@ -79,8 +79,14 @@ jobs:
             envsubst < Kubernetes/deployment.yaml > Kubernetes/deployment-rendered.yaml
             cat Kubernetes/deployment-rendered.yaml  # Optional: Debug output
             kubectl apply -f Kubernetes/deployment-rendered.yaml
+    
+    # manifest file in different folder
 
-  
+    # - name: Download deployment.yaml from another repo
+    #  run: |
+    #    curl -o kubernetes/deployment.yaml https://raw.githubusercontent.com/other-user/k8s-repo/main/manifests/deployment.yaml
+
+
     # - name: Deploy Amazon ECS task definition
     #   uses: aws-actions/amazon-ecs-deploy-task-definition@v1
     #   with:
