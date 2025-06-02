@@ -109,4 +109,21 @@ click on New repository secret, add access & secret key
 
 ![image](https://github.com/user-attachments/assets/c5dfa6ad-de80-461a-b018-55c32791cf5b)
 
-click on new self hosted runner and run the commands in the server
+click on new self hosted runner login with ubuntu and run the commands in the server
+
+![image](https://github.com/user-attachments/assets/3c3359b0-63d0-4a27-95b0-8ae41287d346)
+
+![image](https://github.com/user-attachments/assets/4ecb5052-e6c6-48d9-9a9e-cc36bf119409)
+
+Enter the runner name and label 
+
+![image](https://github.com/user-attachments/assets/11df2afa-df74-47a8-b4a1-6feb140c9b97)
+
+to start the runner 
+
+./run.sh
+
+![image](https://github.com/user-attachments/assets/e67b6a82-efd3-4ae3-8af3-ecf4b877e388)
+
+
+
