@@ -83,7 +83,7 @@ jobs:
     # manifest file in different folder
 
     # - name: Download deployment.yaml from another repo
-    #  run: |
+    #   run: |
     #    curl -o kubernetes/deployment.yaml https://raw.githubusercontent.com/other-user/k8s-repo/main/manifests/deployment.yaml
 
 
